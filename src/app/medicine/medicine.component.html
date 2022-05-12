@@ -1,0 +1,125 @@
+<div class="row" *ngIf="!Entry_View">
+    <!-- <form name=empform #form="ngForm" autocomplete="off" novalidate (ngSubmit)="onSubmit(form)"> -->
+
+    <input type="hidden" name="medicineId" [(ngModel)]="medicines_.medicineId">
+
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Medicine Code</span>
+        </div>
+        <input readonly name="medicineCode" id="medicineCode" [(ngModel)]="medicines_.medicineCode" class="form-control"
+            aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Medicine Name</span>
+        </div>
+        <input type="text" name="medicineName" id="medicineName" [(ngModel)]="medicines_.medicineName"
+            class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"
+            placeholder="Enter Medicine Name ">
+    </div>
+
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Genereic Name</span>
+        </div>
+        <input type="text" name="genericName" id="genericName" [(ngModel)]="medicines_.genericName" class="form-control"
+            aria-label="Default" aria-describedby="inputGroup-sizing-default" placeholder="Enter Generic Name">
+    </div>
+
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Company Name</span>
+        </div>
+        <input type="text" name="companyName" id="companyName" [(ngModel)]="medicines_.companyName" class="form-control"
+            aria-label="Default" aria-describedby="inputGroup-sizing-default" placeholder="Enter Company Name">
+    </div>
+
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Quantity</span>
+        </div>
+        <input type="text" name="quantity" id="quantity" [(ngModel)]="medicines_.quantity" class="form-control"
+            aria-label="Default" aria-describedby="inputGroup-sizing-default" placeholder="Enter Quantity">
+    </div>
+
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Unit</span>
+        </div>
+        <input type="text" name="unit" id="unit" [(ngModel)]="medicines_.unit" class="form-control"
+            aria-label="Default" aria-describedby="inputGroup-sizing-default" placeholder="Enter Unit">
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Unit Price</span>
+        </div>
+        <input type="text" name="unitPrice" id="unitPrice"  [(ngModel)]="medicines_.unitPrice" class="form-control"
+            aria-label="Default" aria-describedby="inputGroup-sizing-default" placeholder="Enter unitPrice">
+    </div>
+
+        <br>
+        <div class="form-group">
+            <button type="submit" (click)="Close_Click()" class="btn btn-lg btn-primary form-control"> Close</button>
+            <button type="submit" (click)="save_medicine()" class="btn btn-lg btn-primary form-control"> Submit</button>
+        </div>
+    
+    <!-- </form> -->
+</div>
+<div class="container"  *ngIf="Entry_View">
+
+    <!-- <div class="header">
+        <input class="form-control" type="text" placeholder="What do you want to Search ?" [(ngModel)]="filter" />
+        <br>
+         <button (click)="Create_New()"  mat-raised-button type="submit"  class=" save-button-style pull-left mr-1 ">Create New</button>
+    </div> -->
+    <div class="md-form">
+        <input type="search" [(ngModel)]="filter" placeholder="Search text"> 
+        <button (click)="Create_new()"  mat-raised-button type="submit"  class=" save-button-style pull-left mr-1 ">Create New</button>
+  
+    </div>
+    <table class="table table-bordered table-stripped">
+        <thead>
+            <tr>
+                <th>Medicine Id</th>
+                <th>Medicine Name</th>
+                <th>Medicine Code</th>
+                <th>Genereic Code</th>
+                <th>Company Name</th>
+                <th>Quantity</th>
+                <th>Unit</th>
+                <th>Amount </th>
+                <th>Created Date</th>
+                <th>Modified Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let med of medicineService_.Medicines | filter:filter | paginate: {itemsPerPage:10, currentPage:page } ">
+                <td>{{med.medicineId}}</td>
+                <td >{{med.medicineName}}</td>
+                <td >{{med.medicineCode}} </td>
+                <td >{{med.genericName}} </td>
+                <td >{{med.companyName}} </td>
+                <td >{{med.quantity}} </td>
+                <td >{{med.unit}} </td>
+                <td >{{med.unitPrice}} </td>
+                <td >{{med.createdDate | date: 'dd-MMM-yyyy'}} </td>
+                <td >{{med.modifiedDate | date: 'dd-MMM-yyyy'}} </td>
+                <td><button (click)="editMedicine(med)" class="btn btn-info">Edit</button>&nbsp;
+                    <button (click)="deleteMedicine(med.medicineId)" class="btn btn-sm btn-outline-danger">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="footer">
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>
+</div>
+

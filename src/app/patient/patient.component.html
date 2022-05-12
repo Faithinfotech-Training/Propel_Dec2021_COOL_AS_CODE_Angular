@@ -1,0 +1,204 @@
+<div class="row" *ngIf="!Entry_View">
+    <!-- <form name=empform #form="ngForm" autocomplete="off" novalidate (ngSubmit)="onSubmit(form)"> -->
+
+    <input type="hidden" name="id" [(ngModel)]="patient.patientId">
+
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">patient No</span>
+        </div>
+        <input readonly name="patient.patientNo" id="patient.patientNo" [(ngModel)]="patient.patientNo"
+            class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">patient Name</span>
+        </div>
+        <input type="text" name="patient.patientName" id="patient.patientName" [(ngModel)]="patient.patientName"
+            class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"
+            placeholder="Enter Patient Name">
+    </div>
+
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Mobile</span>
+        </div>
+        <input type="text" name="patient.mobile" id="patient.mobile" [(ngModel)]="patient.mobile" class="form-control"
+            aria-label="Default" aria-describedby="inputGroup-sizing-default"
+            placeholder="Enter Mobile No">
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Email</span>
+        </div>
+        <input type="text" name="patient.email" id="patient.email" [(ngModel)]="patient.email" class="form-control"
+            aria-label="Default" aria-describedby="inputGroup-sizing-default"
+            placeholder="Enter Email">
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">DOB</span>
+        </div>
+        <input type="date" name="patient.dob" id="patient.dob" [(ngModel)]="patient.dob" class="form-control"
+            aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Gender</span>
+        </div>
+
+        <select [(ngModel)]="gender" name="gender" required class="form-control p-0 pl-1">
+            <option *ngFor="let gender1 of Gender_Data " [ngValue]="gender1">{{gender1.genderName}}</option>
+        </select>
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Blood Group</span>
+        </div>
+
+        <select [(ngModel)]="bloodGroup" name="bloodGroup" required class="form-control p-0 pl-1">
+            <option *ngFor="let blood1 of BloodGroup_Data " [ngValue]="blood1">{{blood1.bloodGroupName}}</option>
+        </select>
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Address</span>
+        </div>
+        <input type="text" name="patient.address" id="patient.address" [(ngModel)]="patient.address" class="form-control"
+            aria-label="Default" aria-describedby="inputGroup-sizing-default"
+            placeholder="Enter address">
+    </div>
+
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" (click)="close_click()"class="btn btn-primary">Close</button>
+        <button type="button" (click)="Save_Patient()"class="btn btn-primary">Save</button>
+      </div>
+    <!-- </form> -->
+</div>
+
+<div class="container"  *ngIf="!SearchView">
+
+    <!-- <div class="header">
+        <input class="form-control" type="text" placeholder="What do you want to Search ?" [(ngModel)]="filter" />
+        <br>
+         <button (click)="Create_New()"  mat-raised-button type="submit"  class=" save-button-style pull-left mr-1 ">Create New</button>
+    </div> -->
+    <div class="md-form">
+        <input type="search" [(ngModel)]="filter" placeholder="Search text"> 
+        <button (click)="Create_New()"  mat-raised-button type="submit"  class=" save-button-style pull-left mr-1 ">Create New</button>
+  
+    </div>
+    <table class="table table-bordered table-stripped">
+        <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Patient No</th>
+                <th>Mobile</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th>Blood Group</th>
+                <th>DOB</th>
+                <th>Address</th>
+                <th>Staff Name</th>
+                <th>Appointment</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let ptnt of patient_data | filter:filter | paginate: {itemsPerPage:10, currentPage:page } ">
+                <!-- <td>{{stf.staffId}}</td> -->
+                <td >{{ptnt.patientName}} </td>
+                <td>{{ptnt.patientNo}}</td>
+                <td >{{ptnt.mobile}}</td>
+                <td >{{ptnt.email}}</td>
+                <td >{{ptnt.genderName}} </td>
+                <td >{{ptnt.bloodGroupName}} </td>
+                <td >{{ptnt.dob | date: 'dd-MMM-yyyy'}} </td>
+                <td >{{ptnt.address}}</td>
+                <td >{{ptnt.staffName}} </td>
+                <td ><button (click)="Appointment(ptnt.patientId,ptnt.patientName)" class="btn btn-info">Appointment</button> </td>
+                <td><button (click)="editPatient(ptnt)" class="btn btn-info">Edit</button>&nbsp;
+                    <button (click)="deletePatient(ptnt.id)" class="btn btn-sm btn-outline-danger">Disable</button>&nbsp;
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="footer">
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>
+</div>
+
+<div class="row" *ngIf="!consultationview">
+    <!-- <form name=empform #form="ngForm" autocomplete="off" novalidate (ngSubmit)="onSubmit(form)"> -->
+
+    <input type="hidden" name="id" [(ngModel)]="appointment.patientId">
+
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">patient Name</span>
+        </div>
+        <input readonly name="appointment.patientName" id="appointment.patientName" [(ngModel)]="appointment.patientName"
+            class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Department</span>
+        </div>
+        <select [(ngModel)]="department" name="department" required class="form-control p-0 pl-1" (ngModelChange)="department_change()">
+            <option *ngFor="let department1 of Department_Data " [ngValue]="department1">{{department1.departmentName}}</option>
+        </select>
+    </div>
+
+    
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Doctor</span>
+        </div>
+    <input Input type="text"  class="form-control" [matAutocomplete]="autoc3" placeholder="Search Doctor" [(ngModel)]="doctor_"  name="doctor_"   
+    (click)="doctor_Typeahead($event)" (keyup)="doctor_Typeahead($event)" (ngModelChange)="doctor_change()">
+    <mat-autocomplete #autoc3="matAutocomplete" [displayWith]="display_doctor">
+        <mat-option *ngIf="issLoading">
+            <mat-spinner diameter="500"></mat-spinner>
+        </mat-option>
+        <ng-container *ngIf="!issLoading">
+            <mat-option *ngFor="let doctor1 of doctor_data" [value]="doctor1">
+                <span name="doctor1.staffName">{{doctor1.staffName}}-{{doctor1.specializationName}}</span>
+            </mat-option>
+        </ng-container>
+    </mat-autocomplete>
+</div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Fees</span>
+        </div>
+        <input readonly type="text" name="appointment.consultationFees" id="appointment.consultationFees" [(ngModel)]="appointment.consultationFees" class="form-control"
+            aria-label="Default" aria-describedby="inputGroup-sizing-default"
+            placeholder="Enter consultationFees">
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Appointment Date</span>
+        </div>
+        <input type="date" name="appointment.appointmentDate" id="appointment.appointmentDate" [(ngModel)]="appointment.appointmentDate" class="form-control"
+            aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+
+
+    <div class="btn-group" role="group" aria-label="Basic example"><div>
+        <button type="button" (click)="close_click()"class="btn btn-primary">Close</button>
+    </div> <div>
+        <button type="button" (click)="save_appointment()"class="btn btn-primary">Generate Bill And Appointment</button>
+      </div></div>
+    <!-- </form> -->
+</div>

@@ -1,0 +1,209 @@
+
+<div class="container">
+<div class="row" *ngIf="!Entry_View">
+    <!-- <form #form="ngForm"> -->
+ 
+    <input type="hidden" name="id" [(ngModel)]="staff_.staffId">
+    
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Staff Name</span>
+        </div>
+        <input name="staffName" id="staffName" required pattern="[a-zA-Z][a-zA-Z ]+"
+         [(ngModel)]="staff_.staffName" #staffName="ngModel"
+            class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"
+            [ngClass]="{'is-invalid':staffName.touched && staffName.invalid}">
+            <div [hidden]="staffName.valid || staffName.pristine"  class="alert alert-danger">
+                <div [hidden]="!staffName.hasError('required')">Name is required</div>
+                <div [hidden]="!staffName.hasError('pattern')">Only alphabetsallowed</div>
+            </div>
+    </div>
+
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Staff No</span>
+        </div>
+        <input readonly name="staff_.staffNo" id="staff_.staffNo" [(ngModel)]="staff_.staffNo"
+            class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+    
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Mobile</span>
+        </div>
+        <input name="staff_.mobile" id="staff_.mobile" [(ngModel)]="staff_.mobile"
+            class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Gender</span>
+        </div>       
+        <select [(ngModel)]="gender" name="gender" required class="form-control p-0 pl-1"  >
+            <option *ngFor="let gender1 of Gender_Data "[ngValue]="gender1">{{gender1.genderName}}</option>
+        </select>
+    </div>
+
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Email</span>
+        </div>       
+        <input name="staff_.email" id="staff_.email" [(ngModel)]="staff_.email"
+            class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Address</span>
+        </div>       
+        <input name="staff_.address" id="staff_.address" [(ngModel)]="staff_.address"
+            class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Education</span>
+        </div>       
+        <input name="staff_.education" id="staff_.education" [(ngModel)]="staff_.education" placeholder="Enter Education"
+         class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Role</span>
+        </div>       
+        <select [(ngModel)]="role_" name="role_" required class="form-control p-0 pl-1" (ngModelChange)="role_change()" >
+            <option *ngFor="let role_1 of role_Data "[ngValue]="role_1">{{role_1.roleName}}</option>
+        </select>
+     </div>
+
+     <div class="input-group mb-2" [hidden]="doctor_view">
+         <div class="input-group-prepend">
+             <span class="input-group-text" id="inputGroup-sizing-default">Department</span>
+         </div>   
+         <select [(ngModel)]="department" name="department" required class="form-control p-0 pl-1" (ngModelChange)="departmet_change()" >
+             <option *ngFor="let department1 of Department_Data "[ngValue]="department1">{{department1.departmentName}}</option>
+         </select>
+      </div>
+
+      <div class="input-group mb-2" [hidden]="doctor_view">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Specialization</span>
+        </div>   
+        <input Input type="text"  class="form-control" [matAutocomplete]="autoc3" placeholder="Search specialization" [(ngModel)]="specialization_"  name="specialization_"   (click)="specialization_Typeahead($event)" (keyup)="specialization_Typeahead($event)" >
+        <mat-autocomplete #autoc3="matAutocomplete" [displayWith]="display_specialization">
+            <mat-option *ngIf="issLoading">
+                <mat-spinner diameter="500"></mat-spinner>
+            </mat-option>
+            <ng-container *ngIf="!issLoading">
+                <mat-option *ngFor="let specialization_1 of specialization_Data" [value]="specialization_1">
+                    <span name="specialization_1.specializationName">{{specialization_1.specializationName}}</span>
+                </mat-option>
+            </ng-container>
+        </mat-autocomplete>
+     </div>
+
+    <div class="input-group" [hidden]="doctor_view">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="">consultationFees</span>
+        </div>        
+        <input name="staff_.consultationFees" id="staff_.consultationFees" [(ngModel)]="staff_.consultationFees" placeholder="Enter consultationFees"
+         class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+    
+    <div class="input-group" >
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="">DOB</span>
+        </div>
+        <input type="date" name="staff_.dob" id="staff_.dob" [(ngModel)]="staff_.dob" placeholder="Enter dob"
+         class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+    
+    <div class="input-group" >
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="">Date Of Join</span>
+        </div>
+        <input type="date" name="staff_.dateOfJoining" id="staff_.dateOfJoining" [(ngModel)]="staff_.dateOfJoining" placeholder="Enter dateOfJoining"
+         class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+    
+    <div class="input-group" >
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="">User Name</span>
+        </div>
+        <input type="text" name="staff_.userName" id="staff_.userName" [(ngModel)]="staff_.userName" placeholder="Enter userName"
+         class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+    
+    <div class="input-group" >
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="">password</span>
+        </div>
+        <input type="text" name="staff_.password" id="staff_.password" [(ngModel)]="staff_.password" placeholder="Enter password"
+         class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+    
+        <br>
+        <!-- <div class="form-group">
+            <button type="submit" (click)="save_staff()" class="btn btn-lg btn-primary form-control"> Submit </button>
+        </div> -->
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="submit" 
+            class="btn btn-warning"
+            [disabled] = "!form.form.valid" (click)="save_staff()"class="btn btn-primary">Save</button>
+            <button (click)="close_click()"class="btn btn-primary">Close</button>
+          </div>
+    <!-- </form> -->
+    <!-- </form> -->
+</div>
+</div>
+
+<div class="container"  *ngIf="Entry_View">
+
+    <!-- <div class="header">
+        <input class="form-control" type="text" placeholder="What do you want to Search ?" [(ngModel)]="filter" />
+        <br>
+         <button (click)="Create_New()"  mat-raised-button type="submit"  class=" save-button-style pull-left mr-1 ">Create New</button>
+    </div> -->
+    <div class="md-form">
+        <input type="search" [(ngModel)]="searchText" placeholder="Search text"> 
+        <button (click)="Create_New()"  mat-raised-button type="submit"  class=" save-button-style pull-left mr-1 ">Create New</button>
+  
+    </div>
+    <table class="table table-bordered table-stripped">
+        <thead>
+            <tr>
+                <th>Staff No</th>
+                <th>Staff Name</th>
+                <th>Mobile</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th>Address</th>
+                <th>Education</th>
+                <th>DOB</th>
+                <th>DOJ</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let stf of staff_Data | filter:filter | paginate: {itemsPerPage:10, currentPage:page } ">
+                <!-- <td>{{stf.staffId}}</td> -->
+                <td >{{stf.staffNo}}</td>
+                <td >{{stf.staffName}} </td>
+                <td>{{stf.mobile}}</td>
+                <td >{{stf.email}}</td>
+                <td >{{stf.genderName}} </td>
+                <td >{{stf.address}}</td>
+                <td >{{stf.education}} </td>
+                <td >{{stf.dob | date: 'dd-MMM-yyyy'}} </td>
+                <td >{{stf.dateOfJoining | date: 'dd-MMM-yyyy'}} </td>
+                <td><button (click)="editStaff(stf)" class="btn btn-info">Edit</button>&nbsp;
+                    <!-- <button (click)="deleteEmployee(stf.id)" class="btn btn-sm btn-outline-danger">Delete</button> -->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="footer">
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>
+</div>
+
