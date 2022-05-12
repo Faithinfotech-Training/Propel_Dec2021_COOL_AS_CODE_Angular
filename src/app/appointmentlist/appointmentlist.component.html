@@ -1,0 +1,140 @@
+<div class="container"  *ngIf="Entry_View">
+    <div class="header">
+        <input class="form-control" type="text" placeholder="What do you want to Search ?" [(ngModel)]="filter" />
+        <br>
+    </div> 
+    <table class="table table-bordered table-stripped">
+        <thead>
+            <tr>
+                <th>Token No</th>
+                <th>Patient Name</th>
+                <th>Appointment Date</th>
+                <th>View</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let appointment of Appointment_Data| filter:filter | paginate: {itemsPerPage:3, currentPage:page } ">
+                <!-- <td>{{ i+1 }}</td> -->
+                <td >{{appointment.tokenNo}} </td>
+                <td >{{appointment.patientName}} </td>
+                <td>{{appointment.appointmentDate | date: 'dd-MMM-yyyy'}}</td>
+                <td >
+                    <div [hidden]="appointment.status==0"><button (click)="view_click(appointment)"  class="btn btn-info" >VIEW</button>&nbsp;</div>
+                    <div ><button (click)="view_click(appointment)"  class="btn btn-info" >History</button>&nbsp;</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="footer">
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>
+</div>
+
+<div class="row" *ngIf="!Entry_View">
+
+        <input type="hidden" name="prescriptionId" [(ngModel)]="prescription_.prescriptionId">          
+
+    <div class="input-group mb-3" [hidden]="diagonsis_view">
+        <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">Diagnosis</span>
+        </div>
+        <input type="text" name="diagnosis" id="diagnosis" [(ngModel)]="prescription_.diagnosis" placeholder="Enter Diagnosis" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        <button (click)="save_prescription()" class="btn btn-primary" type="button">Save</button>
+        <!-- <div class="col">
+            <button type="submit" (click)="Add_Medicine()" class="btn btn-lg btn-primary form-control"> Submit</button>
+        </div> -->
+    </div>
+
+    <div class="input-group mb-3" [hidden]="diagonsis_hide">
+        <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">Diagnosis</span>
+        </div>
+        <input type="text" readonly name="diagnosis" id="diagnosis" [(ngModel)]="prescription_.diagnosis" placeholder="Enter email" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+
+<!-- Test -->
+
+<br>
+    <div>          
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Medicine</span>
+            </div>           
+            <select [(ngModel)]="medicine" name="medicine" required class="form-control p-0 pl-1"  >
+                <option *ngFor="let medicine1 of medicine_data "[ngValue]="medicine1">{{medicine1.medicineName}}</option>
+            </select>
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Medicine Interval</span>
+                </div>
+                <select [(ngModel)]="interval" name="interval" required class="form-control p-0 pl-1"  >
+                   <option *ngFor="let interval1 of interval_data "[ngValue]="interval1">{{interval1.medicineIntervalName}}</option>
+               </select>
+        </div>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Course</span>
+            </div>           
+            <input type="text" name="Medicineprescription_.course" id="Medicineprescription_.course"  [(ngModel)]="Medicineprescription_.course"  class="form-control" placeholder="First name" aria-label="First name">
+           
+                <div class="col">
+                    <button type="submit" (click)="Add_Medicine()" class="btn btn-lg btn-primary form-control"> Add Medicine</button>
+                </div>
+        </div>
+        <br>
+        <table class="table table-bordered table-stripped">
+            <thead>
+                <tr>
+                    <th>Medicine Name</th>
+                    <th>Interval</th>
+                    <th>Course</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let medpre of Medicineprescription_Data">
+                    <!-- <td>{{ i+1 }}</td> -->
+                    <td >{{medpre.medicineName}} </td>
+                    <td >{{medpre.medicineInterval}} </td>
+                    <td >{{medpre.course}} </td>
+                    <td><button (click)="edit_med(medpre)"  class="btn btn-info">Edit</button>&nbsp; </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+    <!-- lab -->
+    
+    <br>
+        <div>    
+              <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="">Test</span>
+                </div>   
+                 <select [(ngModel)]="test" name="test" required class="form-control p-0 pl-1"  >
+                    <option *ngFor="let test1 of test_data "[ngValue]="test1">{{test1.testName}}</option>
+                </select>
+                    <div class="col">
+                        <button type="submit" (click)="Add_Lab()" class="btn btn-lg btn-primary form-control"> Add Medicine</button>
+                    </div>
+                </div>
+              <br>
+            <table class="table table-bordered table-stripped">
+                <thead>
+                    <tr>
+                        <th>Lab Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let labpre of Testprescription_Data">
+                        <!-- <td>{{ i+1 }}</td> -->
+                        <td >{{labpre.testName}} </td>
+                        <td><button (click)="edit_lab(labpre)"  class="btn btn-info">Edit</button>&nbsp; </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+            <button type="submit" (click)="close_click()" class="btn btn-lg btn-primary form-control"> Close</button>
+        </div>
+    <!-- </form> -->
+</div>

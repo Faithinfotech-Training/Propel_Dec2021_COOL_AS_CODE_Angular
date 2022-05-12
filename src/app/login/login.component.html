@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-md-12">
+        <img  src="edabroadassets/img/companylogo.png" class="img-fluid login-logo-to-corect" alt="Responsive image"/>
+        <h3 class="login-title">C M S</h3>
+    </div>
+</div>
+    <div class="row">
+      <div class="col-md-12">
+        <label class="name-login-version"></label>
+      </div>
+    </div>
+    <form [formGroup]="loginForm" (submit)="loginCredentials()">
+      <div class="row">
+        <div class="col-md-12 mb-2">      
+            <input formControlName="userName" class="form-control" matInput placeholder="Login Name" type="text"/>  
+        </div>
+        <div class="col-md-12">      
+            <input  formControlName="password" class="form-control" matInput  placeholder="Password"  type="password" />      
+        </div>
+        <div _ngcontent-xmy-c9="" class="col-md-12 for-leads-chckbx login-remember-chckbox">
+          <div _ngcontent-xmy-c9="" class="form-check for-chck-bx-crcktng-login form-check for-chck-bx-crcktng-led-titl-bx">     
+            <label _ngcontent-xmy-c9="" class="form-check-label">
+              <input _ngcontent-xmy-c9="" checked="" class="form-check-input" type="checkbox" value=""/>
+              <span _ngcontent-xmy-c9="" class="form-check-sign lead-title-box-check"><span _ngcontent-xmy-c9="" class="check"></span> </span></label>
+              <div><label class="name-login-remember" style="margin-top: 10px; margin-left: -35px;">Remember Me</label></div>
+            </div>
+          
+        </div>
+        <div class="col-md-12">
+          <button  [disabled]='loginForm.invalid' mat-raised-button type="submit" class="other-button-style btnflot pull-right">
+            Login
+          </button>
+        </div>
+      </div>
+    </form>
